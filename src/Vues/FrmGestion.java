@@ -34,7 +34,7 @@ public class FrmGestion extends JFrame{
 
     private CtrlReservation ctrlReservation;
     private ModelJTable modelJTable;
-    private ConnexionBDD cnx;
+    ConnexionBDD cnx;
 
 
 //Affichage de l'appli
@@ -45,9 +45,12 @@ public FrmGestion() throws SQLException, ClassNotFoundException
     this.pack();
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
-    ctrlReservation = new CtrlReservation();
 
+    // Il faut d'abord instancier la connexion avant d'instancier le controller
+    // pour les réservations
     cnx = new ConnexionBDD();
+
+    ctrlReservation = new CtrlReservation();
 
     this.addWindowListener(new WindowAdapter() {
         @Override
@@ -68,7 +71,14 @@ public FrmGestion() throws SQLException, ClassNotFoundException
        public void actionPerformed(ActionEvent e) {
 
             //mettre les erreurs ici
-        ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText().toString()), Date.valueOf(txtTable.getText().toString()), Integer.parseInt(txtDate.getText().toString()), Time.valueOf(txtHeure.getText()));
+           Date dte = Date.valueOf(txtDate.getText());
+           Time tps  = Time.valueOf(txtHeure.getText());
+            ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText()), dte, Integer.parseInt(txtTable.getText()), tps);
+
+            // On rafraichit l'interface graphique
+           modelJTable = new ModelJTable();
+           modelJTable.loadDatasReservation(ctrlReservation.GetAllReservation());
+           tblReservation.setModel(modelJTable);
        }});
    }
 }

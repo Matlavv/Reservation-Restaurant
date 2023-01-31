@@ -25,7 +25,7 @@ public class CtrlReservation {
             ps = cnx.prepareStatement("SELECT * FROM `reservation`");  //requete SQL pour récup toute la table Reservation
             rs = ps.executeQuery(); //executer la requete
             while (rs.next()) {
-                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomReservation"),rs.getInt("nombreClient"),rs.getInt("tableReservation"),rs.getDate("dateReservation"), rs.getTime("heureReservation"));
+                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomClient"),rs.getInt("nombreClient"),rs.getInt("tableReservation"),rs.getDate("dateReservation"), rs.getTime("heureReservation"));
                 lesReservations.add(reservation);
             }
             ps.close();
@@ -59,13 +59,17 @@ public class CtrlReservation {
     {
         try
         {
-            ps = cnx.prepareStatement("INSERT INTO `reservation`(`idReservation`, `nomClient`, `nombreClient`, `dateReservation`, `tableReservation`, `heureReservation`) VALUES (?,?,?,?,?,?)");
+            java.sql.Date dte = java.sql.Date.valueOf(String.valueOf(dateReservation));;
+
+            ps = cnx.prepareStatement("INSERT INTO reservation VALUES (?,?,?,?,?,?)");
             ps.setObject(1, null); //id
             ps.setString(2, nomClient); //Nom
             ps.setInt(3, nombreClient); //nombre
-            ps.setDate(4, (java.sql.Date) dateReservation); //date
+            ps.setDate(4, dte); //date
             ps.setInt(5, tableReservation); //table
             ps.setTime(6, heureReservation); //heure
+            ps.executeUpdate();
+
         } catch (SQLException ex) {
             Logger.getLogger(CtrlReservation.class.getName()).log(Level.SEVERE, null, ex);
         }
