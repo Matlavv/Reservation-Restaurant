@@ -20,8 +20,6 @@ public class Reservation {
         this.heureReservation = heureReservation;
     }
 
-
-
     public int getIdReservation() {
         return idReservation;
     }

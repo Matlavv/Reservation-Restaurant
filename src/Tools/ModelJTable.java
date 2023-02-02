@@ -30,7 +30,7 @@ public class ModelJTable extends AbstractTableModel
     }
 
     public void loadDatasReservation(ArrayList<Reservation> lesReservations) {
-        nomsColonnes = new String[]{"ID","Nom","Nombre","Date","Table","Heure"};
+        nomsColonnes = new String[]{"Numéro","Nom","Nombre","Date","Table","Heure"};
         rows = new Object[lesReservations.size()][6];
         int i = 0;
         for (Reservation reservation : lesReservations) {

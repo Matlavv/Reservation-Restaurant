@@ -8,9 +8,10 @@ import java.util.TimeZone;
 public class ConnexionBDD
 {
     private static Connection cnx;
-
     public ConnexionBDD() throws ClassNotFoundException, SQLException {
+        //String pilote = "com.mysql.jdbc.Driver";
         String pilote = "com.mysql.jdbc.Driver";
+        // chargement du pilote
         Class.forName(pilote);
         //Creation de l'objet connection à la BDD
         cnx = DriverManager.getConnection("jdbc:mysql://localhost/reservationrestaurant?useSSL=true&serverTimezone="
