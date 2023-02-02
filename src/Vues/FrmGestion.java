@@ -3,6 +3,7 @@ package Vues;
 import Controlers.CtrlReservation;
 import Tools.ConnexionBDD;
 import Tools.ModelJTable;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -29,8 +30,10 @@ public class FrmGestion extends JFrame{
     private JTextField txtDate;
     private JTextField txtHeure;
     private JButton btnAjouter;
-    private JLabel lblChoixDate;
     private JPanel rootPane;
+    private JLabel lblDateAffichage;
+    private JPanel pnlDate;
+    private JDateChooser dteReservation;
 
     private CtrlReservation ctrlReservation;
     private ModelJTable modelJTable;
@@ -45,6 +48,11 @@ public FrmGestion() throws SQLException, ClassNotFoundException
     this.pack();
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     this.setLocationRelativeTo(null);
+
+    //Gestion de la date
+    dteReservation = new JDateChooser();
+    dteReservation.setDateFormatString("yyyy-MM-dd");
+
 
     // Il faut d'abord instancier la connexion avant d'instancier le controller
     // pour les réservations
@@ -71,9 +79,35 @@ public FrmGestion() throws SQLException, ClassNotFoundException
        public void actionPerformed(ActionEvent e) {
 
             //mettre les erreurs ici
-           Date dte = Date.valueOf(txtDate.getText());
-           Time tps  = Time.valueOf(txtHeure.getText());
-            ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText()), dte, Integer.parseInt(txtTable.getText()), tps);
+           if(txtNom.getText().equals(""))
+           {
+               JOptionPane.showMessageDialog(null,"Ajoutez un nom à la réservation", "Nom manquant",JOptionPane.WARNING_MESSAGE);
+           }
+           else if(txtNombre.getText().equals(""))
+           {
+               JOptionPane.showMessageDialog(null,"Ajoutez un nombre de clients à la réservation", "Nombre de clients manquant",JOptionPane.WARNING_MESSAGE);
+           }
+           else if(txtTable.getText().equals(""))
+           {
+               JOptionPane.showMessageDialog(null,"Ajoutez un numéro de table à la réservation", "Numéro de table manquant",JOptionPane.WARNING_MESSAGE);
+           }
+           else if(txtDate.getText().equals(""))
+           {
+               JOptionPane.showMessageDialog(null,"Ajoutez une date à la réservation", "Date manquante",JOptionPane.WARNING_MESSAGE);
+           }
+           else if(txtHeure.getText().equals(""))
+           {
+               JOptionPane.showMessageDialog(null,"Ajoutez une heure à la réservation", "Heure manquante",JOptionPane.WARNING_MESSAGE);
+           }
+           else
+           {
+               Date dte = Date.valueOf(txtDate.getText());
+               Time tps  = Time.valueOf(txtHeure.getText());
+               ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText()), dte, Integer.parseInt(txtTable.getText()), tps);
+           }
+
+
+
 
             // On rafraichit l'interface graphique
            modelJTable = new ModelJTable();
