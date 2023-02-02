@@ -9,25 +9,23 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CtrlReservation
-{
+public class CtrlReservation {
     private Connection cnx;
     private PreparedStatement ps;
     private ResultSet rs;
 
-    public CtrlReservation() { cnx = ConnexionBDD.getCnx(); } //Se connecter à la BDD
+    public CtrlReservation(){ cnx = ConnexionBDD.getCnx(); } //Se connecter à la BDD
 
     //Retourner la base de donnée sous un tableau
 
     public ArrayList<Reservation> GetAllReservation()
     {
         ArrayList<Reservation> lesReservations = new ArrayList<>();
-
         try {
-            ps = cnx.prepareStatement("select * from reservation");  //requete SQL pour récup toute la table Reservation
+            ps = cnx.prepareStatement("SELECT * FROM `reservation`");  //requete SQL pour récup toute la table Reservation
             rs = ps.executeQuery(); //executer la requete
             while (rs.next()) {
-                Reservation reservation = new Reservation(rs.getInt("idReservation"),rs.getString("nomClient"),rs.getInt("nombreClient"),rs.getInt("tableReservation"),rs.getDate("dateReservation"), rs.getTime("heureReservation"));
+                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomClient"),rs.getInt("nombreClient"),rs.getInt("tableReservation"),rs.getDate("dateReservation"), rs.getTime("heureReservation"));
                 lesReservations.add(reservation);
             }
             ps.close();
@@ -42,10 +40,10 @@ public class CtrlReservation
     {
         ArrayList<Reservation> lesDateReservations = new ArrayList<>();
         try {
-            ps = cnx.prepareStatement("SELECT * FROM reservation WHERE dateReservation = ?");
+            ps = cnx.prepareStatement("SELECT * FROM `reservation` WHERE dateReservation = ?");
             rs = ps.executeQuery();
             while (rs.next()) {
-                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomClient"),rs.getInt("nombreClient"),rs.getInt("dateReservation"),rs.getDate("tableReservation"), rs.getTime("heureReservation"));
+                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomReservation"),rs.getInt("nombreClient"),rs.getInt("dateReservation"),rs.getDate("tableReservation"), rs.getTime("heureReservation"));
                 lesDateReservations.add(reservation);
             }
             ps.close();
@@ -55,7 +53,6 @@ public class CtrlReservation
         }
         return lesDateReservations;
     }
-
 
     // Ajouter une réservation
     public void AjouterNouvelleReservation(String nomClient, int nombreClient, Date dateReservation, int tableReservation, Time heureReservation)

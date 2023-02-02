@@ -63,44 +63,22 @@ public FrmGestion() throws SQLException, ClassNotFoundException
         }
     });
 
+
 //Ajouter une reservation
 
-    btnAjouter.addActionListener(new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
+   btnAjouter.addActionListener(new ActionListener() {
+       @Override
+       public void actionPerformed(ActionEvent e) {
 
             //mettre les erreurs ici
-            if(txtNom.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(null,"Entrez un Nom pour la réservation.","Nom manquant",JOptionPane.WARNING_MESSAGE);
-            }
-            else if(txtNombre.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(null, "Entrez un Nombre de clients pour la réservation.","Nombre de clients manquant",JOptionPane.WARNING_MESSAGE);
-            }
-            else if(txtTable.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(null, "Entrez un numéro de table pour la réservation.","Numéro de table manquant",JOptionPane.WARNING_MESSAGE);
-            }
-            else if(txtDate.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(null, "Entrez une date.","Date non indiquée",JOptionPane.WARNING_MESSAGE);
-            }
-            else if(txtHeure.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(null, "Entrez une heure.","Heure non indiquée",JOptionPane.WARNING_MESSAGE);
-            }
-            else
-            {
-                Date dte = Date.valueOf(txtDate.getText());
-                Time tps  = Time.valueOf(txtHeure.getText());
-                ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText()), dte, Integer.parseInt(txtTable.getText()), tps);
-            }
+           Date dte = Date.valueOf(txtDate.getText());
+           Time tps  = Time.valueOf(txtHeure.getText());
+            ctrlReservation.AjouterNouvelleReservation(txtNom.getText(), Integer.parseInt(txtNombre.getText()), dte, Integer.parseInt(txtTable.getText()), tps);
 
             // On rafraichit l'interface graphique
-            modelJTable = new ModelJTable();
-            modelJTable.loadDatasReservation(ctrlReservation.GetAllReservation());
-            tblReservation.setModel(modelJTable);
-        }});
-}
+           modelJTable = new ModelJTable();
+           modelJTable.loadDatasReservation(ctrlReservation.GetAllReservation());
+           tblReservation.setModel(modelJTable);
+       }});
+   }
 }

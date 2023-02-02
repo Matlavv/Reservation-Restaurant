@@ -14,7 +14,7 @@ public class ConnexionBDD
         // chargement du pilote
         Class.forName(pilote);
         //Creation de l'objet connection à la BDD
-        cnx = DriverManager.getConnection("jdbc:mysql://localhost/reservationrestaurant?useSSL=true&serverTimezone="
+        cnx = DriverManager.getConnection("jdbc:mysql://localhost/restau?useSSL=true&serverTimezone="
                 + TimeZone.getDefault().getID(), "root", "");
     }
 
