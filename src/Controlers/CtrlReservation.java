@@ -59,7 +59,7 @@ public class CtrlReservation {
     {
         try
         {
-            java.sql.Date dte = java.sql.Date.valueOf(String.valueOf(dateReservation));;
+            java.sql.Date dte = java.sql.Date.valueOf(String.valueOf(dateReservation));
 
             ps = cnx.prepareStatement("INSERT INTO reservation VALUES (?,?,?,?,?,?)");
             ps.setObject(1, null); //id
@@ -73,5 +73,38 @@ public class CtrlReservation {
         } catch (SQLException ex) {
             Logger.getLogger(CtrlReservation.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    public void SupprimerReservation(int idReservation) throws SQLException {
+        int result = 0;
+        cnx = ConnexionBDD.getCnx();
+       try {
+           ps = cnx.prepareStatement("DELETE FROM `reservation` WHERE `idReservation`= ?");
+           ps.setInt(1, idReservation);
+           result = ps.executeUpdate();
+
+       } catch (SQLException e){
+           e.printStackTrace();
+       }
+    }
+
+    public ArrayList<Reservation> getReservationByDate(Date dateReservation)
+    {
+        ArrayList<Reservation> lesReservations = new ArrayList<>();        //créer un tableau pour entrer les réservations et stocker celle dont la date correspond à celle sélectionnée
+        cnx = ConnexionBDD.getCnx();
+        try {
+            ps = cnx.prepareStatement("SELECT * FROM `reservation` WHERE `dateReservation`= ?");
+            ps.setDate(1, (java.sql.Date) dateReservation);
+            rs = ps.executeQuery();
+            while (rs.next()){     //Tant qu'il reste des réservation avec la date, les ajouter au tableau
+                Reservation reservation = new Reservation(rs.getInt("idReservation"), rs.getString("nomReservation"),rs.getInt("nombreClient"),rs.getInt("dateReservation"),rs.getDate("tableReservation"), rs.getTime("heureReservation"));
+                lesReservations.add(reservation);
+            }
+            ps.close();
+            rs.close();
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(CtrlReservation.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lesReservations;
     }
 }

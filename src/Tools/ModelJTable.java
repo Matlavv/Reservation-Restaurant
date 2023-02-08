@@ -3,6 +3,7 @@ package Tools;
 import Entities.Reservation;
 
 import javax.swing.table.AbstractTableModel;
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class ModelJTable extends AbstractTableModel
